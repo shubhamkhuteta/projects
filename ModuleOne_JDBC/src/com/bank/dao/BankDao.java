@@ -18,9 +18,6 @@ public class BankDao implements BankDaoI{
 	Random rand = new Random();
 	Connection conn=null;
 	PreparedStatement pstmt=null;
-	
-	
-
 
 	public int setData(BankBean bankBean) throws Exception {
 		String createAccount="insert into bank values (?,?,?,?,?,?)";
@@ -180,7 +177,6 @@ public class BankDao implements BankDaoI{
 		}
 
 	}
-
 	
 	public boolean validatePhoneNo(String phone_no) throws Exception {
 		String checkAccount="select phone_no from bank where phone_no=?";
