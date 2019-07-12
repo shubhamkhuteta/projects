@@ -43,7 +43,7 @@ public class BankService {
 			return true;
 		}else {
 			
-			throw new AccountNoAlreadyExistException();
+			return false;
 		}
 	}
 

@@ -1,5 +1,8 @@
 package com.bank.ui;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.bank.exception.*;
 import com.bank.services.BankService;
 import com.bank.services.BankServiceI;
@@ -7,6 +10,12 @@ import com.bank.services.BankServiceI;
 public class BankUI 
 {
 
+	 private static Pattern pattern;
+	 private Matcher matcher;
+
+	 private static final String USERNAME_PATTERN = "^[a-z_]{3,15}$";
+	 private static final String pinPattern = "[0-9]{4}";
+	  
 	static BankUI bankUi = new BankUI();
 	Scanner scanner = new Scanner(System.in);
 
@@ -14,23 +23,24 @@ public class BankUI
 
 	String customer_name,phone_no,city;
 	int balance;
-	int pin,account_no, account_no_2; 
-	boolean res;
-	int res2;
-	String city_pattern = "	[a-zA-Z]+ [a-zA-Z]+";
+	int pin,account_no, account_no_2, res2;
+	static boolean res;
+	
+	byte a;
+	String city_pattern = "^[a-z_]{3,15}$";
 	Random rand = new Random();
 
 	public static void main(String[] args) throws Exception {
-
 		bankUi.chooseAny();
 	}
 
+	
 	public void showMenu() 
 	{
 		System.out.println("\n1. Create Account ");
 		System.out.println("2. Show Balance ");
-		System.out.println("3. Deposit");
-		System.out.println("4. Withdraw");
+		System.out.println("3. Deposit Amount");
+		System.out.println("4. Withdraw Amount");
 		System.out.println("5. Fund Transfer");
 		System.out.println("6. Account Statement");
 		System.out.println("7. Log out");
@@ -43,35 +53,92 @@ public class BankUI
 		int close=0;
 		while (close==0) {
 
+		
 			showMenu();
 			int input=scanner.nextInt();
+			
+			
+			
 			switch (input)
 			{
 			
 			case 1: {
-
-				System.out.println("Enter Your Full Name : ");
-				customer_name=scanner.next();
+				
+				res=false;
+				while(res==false ) {
+					System.out.println("Enter Your Full Name : ");
+					customer_name=scanner.next();
+					pattern = Pattern.compile(USERNAME_PATTERN);
+					matcher = pattern.matcher(customer_name);
+			
+					if(matcher.matches()) {
+							res=true;
+					}else {
+						res=false;
+					}
+				}
+				
+				
 				res=false;
 				while(res==false ) {
 					System.out.println("Enter Your Phone No : ");
-					phone_no=scanner.next();
+					phone_no=scanner.nextLine();
+					phone_no+=scanner.next();
 					res = bankService.validatePhoneNo(phone_no);
 					if(res==true) {
 						if(phone_no.matches("[6-9][0-9]{9}")) {
-							System.out.println("Please enter a valid phone no!");
+							res=true;
+						}else {
+							System.out.println("Incorrect format !!");
+							res=false;
 						}
-						res=true;
+						
 					}else {
 						System.out.println("Account No Already Registered!!");
 					}
 				}
-				System.out.println("Enter your City : ");
-				city=scanner.next();
-				System.out.println("Set your 4 digit pin : ");
-				pin=scanner.nextInt();						
+				
+				res=false;
+				while(res==false ) {
+					System.out.println("Enter your City : ");
+					city=scanner.next();
+					pattern = Pattern.compile(pinPattern);
+					matcher = pattern.matcher(city);
 			
-				balance = 10000;
+					if(matcher.matches()) {
+							res=true;
+					}else {
+						res=false;
+					}
+				}
+				
+				res=false;
+				while(res==false ) {
+					System.out.println("Enter Balance : ");
+					balance=scanner.nextInt();
+					
+					if(balance>5000) {
+							res=true;
+					}else {
+						res=false;
+					}
+				}
+				
+				
+				res=false;
+				while(res==false ) {
+					System.out.println("Set your 4 digit pin : ");
+					pin=scanner.nextInt();	
+					pattern = Pattern.compile(USERNAME_PATTERN);
+					matcher = pattern.matcher(customer_name);
+			
+					if(matcher.matches()) {
+							res=true;
+					}else {
+						res=false;
+					}
+				}
+				
 				account_no=rand.nextInt(100000); ;
 				res2 = bankService.setBankDetails(account_no, customer_name, balance, city, phone_no, pin);
 				if(res2==1) 
@@ -83,9 +150,9 @@ public class BankUI
 					{
 						System.out.println("Account Creation Failed !!");
 					}
-
 			
 			}
+			
 			break;
 			
 			case 2: 
@@ -120,7 +187,7 @@ public class BankUI
 				System.out.println("Enter Your Account No : ");
 				account_no=scanner.nextInt();
 				res = bankService.validateAccountNo(account_no);
-				if(res==true) 
+				if(res==false) 
 				{
 					System.out.println("Enter amount to be withdrawn : ");
 					int balance1=scanner.nextInt();
@@ -132,7 +199,7 @@ public class BankUI
 							throw new LowBalanceException();
 						}
 				}else {
-					System.out.println("Something Went Wrong !!");
+					System.out.println("Account Not Found!!");
 				}
 			break;
 			}
@@ -144,42 +211,32 @@ public class BankUI
 
 				res = bankService.validateAccountNo(account_no);
 
-				if(res==true) 
+				if(res==false) 
 				{
 					System.out.println("Enter account no. in which you want to transfer : ");
 					account_no_2 = scanner.nextInt();
 
 					res = bankService.validateAccountNo(account_no_2);
 
-					if(res==true) 
+					if(res==false) 
 					{
 						System.out.println("Enter Amount : ");
 						int amount = scanner.nextInt();
-
 						res = bankService.checkBalance(account_no,amount);
-
 						if(res==true) 
 						{
 							int fund_result = bankService.fundTransfer(account_no,account_no_2,amount);
 							System.out.println("Updated Balance : "+fund_result );
+						}else{
+							System.out.println("Your balance is low!!");
 						}
-						else 
-
-						{
-							throw new LowBalanceException();
-						}
-
-
-					}
-
-					else 
+					}else 
 					{
-						throw new AccountNotExistException();
+						System.out.println("Destination Account not found!!");
 					}
-				}
-				else 
+				}else 
 				{
-					throw new AccountNotExistException();
+					System.out.println("Source Account not found");
 				}
 
 				break;
@@ -189,7 +246,7 @@ public class BankUI
 				account_no=scanner.nextInt();
 
 				res = bankService.validateAccountNo(account_no);
-				if(res==true) {
+				if(res==false) {
 
 					String st=bankService.getTransaction(account_no);
 
@@ -200,7 +257,7 @@ public class BankUI
 				}
 				else 
 				{
-					throw new AccountNotExistException();
+					System.out.println("Account not exist!");
 				}
 				break;
 
@@ -222,8 +279,8 @@ public class BankUI
 				chooseAny();
 			}
 			}
-		}
-	}
+			
+	}}
 
 
 }

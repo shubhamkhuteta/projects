@@ -153,8 +153,16 @@ public class BankDao implements BankDaoI{
 		pstmt.setLong(1, trans_id1);
 		pstmt.setString(2, trans_type);
 		pstmt.setInt(3, account_no);
-		pstmt.setString(4, trans_desc);
+		pstmt.setString(4, trans1);
+		pstmt.executeUpdate(); 
 		
+		pstmt = conn.prepareStatement(Q_Trans);
+
+		pstmt = conn.prepareStatement(Q_Trans);
+		pstmt.setLong(1, trans_id2);
+		pstmt.setString(2, trans_type);
+		pstmt.setInt(3, account_no_2);
+		pstmt.setString(4, trans2);
 		pstmt.executeUpdate(); 
 		
 		int amt = getBalance(account_no);;
