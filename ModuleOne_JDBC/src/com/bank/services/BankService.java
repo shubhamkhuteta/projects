@@ -2,13 +2,10 @@ package com.bank.services;
 
 import java.sql.SQLException;
 import java.util.Random;
-
 import com.bank.bean.BankBean;
 import com.bank.dao.BankDao;
-import com.bank.exception.AccountNoAlreadyExistException;
 import com.bank.exception.AccountNotExistException;
 import com.bank.exception.LowBalanceException;
-import com.bank.exception.PhoneNoAlreadyExistException;
 
 public class BankService {
 	BankDao bankDao = new BankDao();
@@ -99,7 +96,6 @@ public class BankService {
 
 	}
 
-	
 	public boolean validatePhoneNo(String phone_no) throws Exception {
 		res = bankDao.validatePhoneNo(phone_no);
 		if(res==false) {

@@ -4,14 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Random;
-import java.util.UUID;
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.bank.bean.BankBean;
-import com.bank.exception.LowBalanceException;
 
 
 public class BankDao implements BankDaoI{
@@ -26,12 +20,7 @@ public class BankDao implements BankDaoI{
 	PreparedStatement pstmt=null;
 	
 	
-	@Override
-	public boolean setBankDetails(String account_no, String customer_name, int balance, String city, String phoneno, int pin) {
-		// TODO Auto-generated method stub
-		return false;
 
-	}
 
 	public int setData(BankBean bankBean) throws Exception {
 		String createAccount="insert into bank values (?,?,?,?,?,?)";
@@ -82,9 +71,10 @@ public class BankDao implements BankDaoI{
 		pstmt.setInt(2, account_no);
 		pstmt.executeUpdate(); 
 		
-		trans_desc="Transaction ID : "+trans_id1+" Account Credited by : "+balance+" \n";
+		trans_id1 = rand.nextInt(100000); 
 		trans_type="Deposite";
-
+		trans_desc="Transaction ID : "+trans_id1+" Account Credited by : "+balance+" \n";
+		
 		String saveTrans = "insert into trans values (?,?,?,?)";
 		pstmt = conn.prepareStatement(saveTrans);
 		pstmt.setLong(1, trans_id1);
@@ -103,22 +93,20 @@ public class BankDao implements BankDaoI{
 		pstmt.setInt(1, balance);
 		pstmt.setInt(2, account_no);
 		pstmt.executeUpdate(); 
-
+		
 		trans_id1 = rand.nextInt(100000); 
-		trans_desc="Transaction ID : "+trans_id1+" Updated Balance : "+balance+" \n";
-
-		String Q_Trans = "insert into trans values (?,?,?,?)";
-		pstmt = conn.prepareStatement(Q_Trans);
-		
 		trans_type="Withdraw";
+		trans_desc="Transaction ID : "+trans_id1+" Updated Balance : "+balance+" \n";
 		
+		String Q_Trans = "insert into trans values (?,?,?,?)";
+		
+		pstmt = conn.prepareStatement(Q_Trans);
 		
 		pstmt = conn.prepareStatement(Q_Trans);
 		pstmt.setLong(1, trans_id1);
 		pstmt.setString(2, trans_type);
 		pstmt.setInt(3, account_no);
 		pstmt.setString(4, trans_desc);
-		
 		pstmt.executeUpdate(); 
 
 		return balance;
@@ -142,8 +130,8 @@ public class BankDao implements BankDaoI{
 		trans_id1 = rand.nextInt(100000);
 		trans_id2 = rand.nextInt(100000);
 		
-		String trans1=bankBean.getTrans()+"Updated Balance : "+amount1+" \n";
-		String trans2=bankBean2.getTrans()+"Updated Balance : "+amount2+" \n";
+		String trans1="Amount Transferred to : "+account_no_2+" Updated Balance :"+amount1+" \n";
+		String trans2="Amount Received from : "+account_no_2+" Updated Balance :"+amount2+" \n";
 
 		String Q_Trans = "insert into trans values (?,?,?,?)";
 		pstmt = conn.prepareStatement(Q_Trans);

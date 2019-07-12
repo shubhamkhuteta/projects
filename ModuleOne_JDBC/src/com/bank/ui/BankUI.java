@@ -5,17 +5,15 @@ import java.util.regex.Pattern;
 
 import com.bank.exception.*;
 import com.bank.services.BankService;
-import com.bank.services.BankServiceI;
+
 
 public class BankUI 
 {
 
-	 private static Pattern pattern;
-	 private Matcher matcher;
+	private static Pattern pattern;
+	private Matcher matcher;
 
-	 private static final String USERNAME_PATTERN = "^[a-z_]{3,15}$";
-	 private static final String pinPattern = "[0-9]{4}";
-	  
+	private static final String USERNAME_PATTERN = "^[a-z_]{3,15}$";
 	static BankUI bankUi = new BankUI();
 	Scanner scanner = new Scanner(System.in);
 
@@ -102,7 +100,7 @@ public class BankUI
 				while(res==false ) {
 					System.out.println("Enter your City : ");
 					city=scanner.next();
-					pattern = Pattern.compile(pinPattern);
+					pattern = Pattern.compile(city_pattern);
 					matcher = pattern.matcher(city);
 			
 					if(matcher.matches()) {

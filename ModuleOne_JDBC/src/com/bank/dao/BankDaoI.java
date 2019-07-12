@@ -1,12 +1,11 @@
 package com.bank.dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.bank.bean.BankBean;
 
 public interface BankDaoI {	
-	public boolean setBankDetails(String account_no, String customer_name, int balance, String city, String phoneno, int pin) ;
+
 	public int setData(BankBean bankBean) throws Exception ;
 	public int getBalance(int account_no) throws Exception ;
 	public boolean validateAccountNo(int account_no) throws Exception ;

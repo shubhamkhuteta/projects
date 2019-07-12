@@ -7,9 +7,6 @@ public class BankBean {
 	private String city;
 	private int balance;
 	private int pin;
-	private long trans_id;
-	private String trans_desc, trans_type;
-	
 	private String trans;
 	private int i;
 	
