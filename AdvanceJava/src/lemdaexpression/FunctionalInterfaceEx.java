@@ -16,5 +16,6 @@ public class FunctionalInterfaceEx {
 		//Lambda Expression
 		AddInterface fs=(String a)->{String c=Integer.toString(a.length());return c;};
 		String x =fs.add(name);
-		System.out.println("Length of the value : "+x);}
+		System.out.println("Length of the value : "+x);sc.close();}
+		
 }

@@ -23,9 +23,10 @@ public class SinglePerameterLembda {
 		//System.out.println(fi.add(12, 14));
 		
 		//With Scanner
-		//Scanner scanner = new Scanner(System.in);
-		//FunctionalInter fi = (a)->{a = scanner.nextInt();int b= scanner.nextInt();return a+b;};
-		//System.out.println(fi.add(0));
+		Scanner scanner = new Scanner(System.in);
+		FunctionalInter fi = (a)->{a = scanner.nextInt();int b= scanner.nextInt();return a+b;};
+		System.out.println(fi.add(0));
+		scanner.close();
 		
 		
 	}
