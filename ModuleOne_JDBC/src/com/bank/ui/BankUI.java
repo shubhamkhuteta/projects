@@ -252,9 +252,7 @@ public class BankUI
 
 					System.out.println(st);
 
-				}
-				else 
-				{
+				}else {
 					System.out.println("Account not exist!");
 				}
 				break;
@@ -266,9 +264,7 @@ public class BankUI
 				if(close==0) 
 				{
 					close=0;
-				}
-				else 
-				{
+				}else {
 					System.exit(0);
 				}
 
