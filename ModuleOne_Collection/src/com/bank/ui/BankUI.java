@@ -2,7 +2,7 @@ package com.bank.ui;
 import java.util.*;
 import com.bank.exception.*;
 import com.bank.services.BankService;
-import com.bank.services.BankServiceI;
+
 
 public class BankUI 
 {
@@ -256,7 +256,7 @@ public class BankUI
 				System.out.println("Enter Account No : ");
 				account_no=scanner.nextInt();
 
-				res = res = bankService.validateAccountNo(account_no);
+				res = bankService.validateAccountNo(account_no);
 				if(res==true) {
 
 					String st=bankService.getTransaction(account_no);

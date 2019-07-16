@@ -41,7 +41,8 @@ public class AuthorModule {
 			System.out.println("2. Show Info ");
 			System.out.println("3. Update Info");
 			System.out.println("4. Delete Info");
-			System.out.println("5. Log out");
+			System.out.println("5. Books Info");
+			System.out.println("6. Update Book Price");
 			System.out.println("Enter your choice :");
 
 			int input=sc.nextInt();
@@ -51,7 +52,7 @@ public class AuthorModule {
 			
 			switch(input) {
 			case 1 : 
-				String Q_insert = "insert into Author(authorid, firstName, middleName, lastName,phoneNo) values(?, ?, ?, ?, ?)";
+				String Q_insert = "insert into Author(authorid, firstName, middleName, lastName,phoneNo,bookisbn) values(?, ?, ?, ?, ?, isbn_seq.nextval)";
 				
 				System.out.println("Enter your Author ID : ");
 				authorid=sc.nextInt();
@@ -67,7 +68,6 @@ public class AuthorModule {
 				
 				System.out.println("Enter your Phone No : ");
 				phoneNo=sc.next();
-				
 			
 
 				pstmt = conn.prepareStatement(Q_insert); // create a statement
@@ -76,7 +76,7 @@ public class AuthorModule {
 				pstmt.setString(3, middleName); // set input parameter 3
 				pstmt.setString(4, lastName);
 				pstmt.setString(5, phoneNo);
-				
+				//pstmt.setString(6, isbn_seq);
 				int i=pstmt.executeUpdate(); // execute insert statement
 				if(i==1) {
 					
@@ -186,9 +186,71 @@ public class AuthorModule {
 				break;
 		
 			case 5:
+				System.out.println("Enter your Author ID : ");
+				authorid = sc.nextInt();
+				String showBookTitle = "select a.authorid,b.title from Author a, Book b where a.authorid = b.authorid";
+				pstmt = conn.prepareStatement(showBookTitle);
+				
+				ResultSet resultSet =pstmt.executeQuery();
+				
+					while(resultSet.next()) {
+						int i1=1;
+						int id = resultSet.getInt(1);
+						if(id==authorid) {
+							String title =resultSet.getString(2);
+							System.out.println(i1+" "+title);
+							i1++;
+						}
+						
+						
+						
+					}
 			
 				break;
 
+			case 6:
+				System.out.println("Enter Author Name : ");
+				String authorName = sc.next();
+				
+				System.out.println("Enter Author ID : ");
+				authorid = sc.nextInt();
+				
+				String showBooks = "select a.authorid,b.title from Author a, Book b where a.authorid = b.authorid";
+				pstmt = conn.prepareStatement(showBooks);
+				
+				ResultSet resultSet1 =pstmt.executeQuery();
+				
+					while(resultSet1.next()) {
+						
+						int id = resultSet1.getInt(1);
+						if(id==authorid) {
+							String title =resultSet1.getString(2);
+							System.out.println(" "+title);
+							
+							System.out.println("Enter Book Name : ");
+							String bookName = sc.next();
+							System.out.println("Enter Price : ");
+							int bookPrice = sc.nextInt();
+							
+							
+							String updatePrice="update Book set price = ? where title = ?";
+							pstmt = conn.prepareStatement(updatePrice);
+							
+							pstmt.setInt(1,bookPrice);
+							pstmt.setString(2, bookName); 
+							update = pstmt.executeUpdate();
+							if(update==1) {
+								System.out.println("Price Updated!");
+							}else {
+								System.out.println("Operation Failed!");
+							}
+						}
+						
+						
+						
+					}
+			
+				break;
 			default: 
 				System.out.println("Please enter valid choice!");
 

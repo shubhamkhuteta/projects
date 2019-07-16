@@ -28,7 +28,7 @@ public class ArrayListEx {
 		
 		
 		
-		Iterator itr = al.iterator();
+		Iterator<ArrayTest> itr = al.iterator();
 		while(itr.hasNext()) {
 			System.out.println(itr.next());
 		}

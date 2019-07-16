@@ -2,7 +2,7 @@ package com.bank.dao;
 
 import java.util.HashMap;
 import java.util.Random;
-import java.util.UUID;
+
 
 import com.bank.bean.BankBean;
 
@@ -16,11 +16,11 @@ public class BankDao implements BankDaoI{
 	long uniqueID,uniqueID2;
 	Random rand = new Random();
 	
-	HashMap hm ;
+	HashMap<Integer, BankBean> hm ;
 	
 	public BankDao() {
 		super();
-		hm = new HashMap();
+		hm = new HashMap<Integer, BankBean>();
 	}
 
 	@Override

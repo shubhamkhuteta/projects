@@ -2,7 +2,7 @@ package lemdaexpression;
 
 import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
-import java.util.function.LongPredicate;
+
 
 
 public class IntPredicateEx {
@@ -25,8 +25,6 @@ public class IntPredicateEx {
 			}
 		}
 		
-		long longValues[] = {12345,43345,123453,233453};
-		LongPredicate longPredicate = (d) -> d > 13.0;
 		for(Double i2 : a1) {
 			if(predicate.test(i2)) {
 				System.out.println("With Double Predicate : "+i2);
