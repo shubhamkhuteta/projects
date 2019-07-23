@@ -64,7 +64,7 @@ public class BankUI
 				
 				res=false;
 				while(res==false ) {
-					System.out.println("Enter Your Full Name : ");
+					System.out.println("Enter Name : ");
 					customer_name=scanner.next();
 					pattern = Pattern.compile(USERNAME_PATTERN);
 					matcher = pattern.matcher(customer_name);
